@@ -1,0 +1,60 @@
+1. Find the 5 oldest instagram users?
+
+select username, created_at 
+from users
+order by created_at desc
+limit 5 ;
+
+2. Find the user who never posted on instagram?
+select u.username
+from users as u
+ join
+photos as p
+on p.id=u.id
+where p.image_url is null 
+order by u.username;
+
+3.Identify the winner of the contest and provide details to the team?
+
+select l.photo_id,u.username,count(l.user_id) as nooflikes
+from likes as l
+join
+photos as p
+on l.photo_id=p.id
+join
+users as u
+on p.user_id=u.id
+group by
+l.photo_id,
+u.username
+order by nooflikes desc;
+
+4. Identifying the most common hashtags?
+select t.tag_name,count(p.photo_id) as ht
+ from photo_tags as p
+ join
+ tags as t
+ on t.id=p.tag_id
+ group by t.tag_name
+ order by ht desc
+ limit 5;
+ 
+ 5. What day of the week do most users register?
+ 
+ select DATE_FORMAT((created_at), '%d') as d, count(username) 
+ from users
+ group by 1
+ order by 2 desc;
+ 
+ 6. Provide how many times an average user post on instagram?
+ 
+ with base as(
+ select u.username ,count(l.photoid) as likes as l 
+ join 
+ from users as u
+ on u.id=l,user_id
+ group by u.username)
+ 
+ select username ,likes 
+ from base
+ where likess=(select count(*) from photos order by username ;
